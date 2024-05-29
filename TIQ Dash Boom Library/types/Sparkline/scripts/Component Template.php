@@ -7,10 +7,12 @@
             </button>
         </div>
 
-        <div class="display-6" style="font-size=6rem;">{{choosenSparkTitle}}</div>
+        <div class="display-6 ms-2 mb-2" style="font-size=6rem;">{{choosenSparkTitle}}</div>
         <sparkline-chart
+
+            :key='sparklineKey'
             :id='choosenAttrId'
-            :duration='60 * 60 * 1'
+            :duration='isNaN(parseFloat(choosenDurationHours)) ? 1 * 60 * 60 : parseFloat(choosenDurationHours) * 60 * 60'
             :offset='0'
             :live-mode='true'
             :refresh-interval='10'
@@ -20,14 +22,14 @@
             :show-border='false'
             :show-tooltip='true'
             :round-y-axis-to-significant-digit='1'
-            :min-range='0'
-            :max-range='5'
+            :min-range='isNaN(parseFloat(choosenYMin)) ? null : parseFloat(choosenYMin)'
+            :max-range='isNaN(parseFloat(choosenYMax)) ? null : parseFloat(choosenYMax)'
             :x-ticks='10'
             :y-ticks='5'
-            height='100'
+            :height='hPx - 55'
 
             :margin='{
-                "top": 10,
+                "top": 19,
                 "bottom": 30,
                 "left": 30,
                 "right": 10
@@ -40,7 +42,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Attribute Id Configuration</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Sparkline Configuration</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -53,6 +55,24 @@
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="attrIdSelector">Attribute Id</label>
                             <input type="text" class="form-control" v-model="choosenAttrId" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="attrIdSelector">Duration (hours)</label>
+                            <input type="text" class="form-control" v-model="choosenDurationHours" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="attrIdSelector">Y-Axis max</label>
+                            <input type="text" class="form-control" v-model="choosenYMax" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="attrIdSelector">Y-Axis min</label>
+                            <input type="text" class="form-control" v-model="choosenYMin" placeholder="" aria-label="" aria-describedby="basic-addon1">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -70,17 +90,51 @@
 
     var sparkLineComponent = {
         template: '#spark-line-component-template',
-        props: ['id', 'config', 'showConfigCog'],
+        // props: ['id', 'config', 'showConfigCog'],
+        props: {
+            id: {
+                type: String,
+                default: crypto.randomUUID()
+            },
+            config:{
+                type: Object
+            },
+            hPx:{
+                type: Number
+            },
+            wPx:{
+                type: Number
+            },
+            showConfigCog:{
+                type: Boolean,
+                default: true
+            }
+        },
         data() {
             return { 
                 configComplete: false,
                 choosenAttrId: '',
+                choosenDurationHours: '',
+                choosenYMax: '',
+                choosenYMin: '',
                 choosenSparkTitle: '',
+                sparklineKey: 0
             }
+        },
+        watch:{
+            choosenDurationHours: function(beforeValue, afterValue){
+                this.sparklineKey++;
+            },
+            hPx: function(a,b){
+
+            },
         },
         mounted: async function(){
             
             this.choosenAttrId = this.config.attrId;
+            this.choosenDurationHours = this.config.durationHours;
+            this.choosenYMax = this.config.yMax;
+            this.choosenYMin = this.config.yMin;
             this.choosenSparkTitle = this.config.sparkTitle;
 
             this.configComplete = this.CheckConfigIsComplete();
@@ -102,6 +156,9 @@
         methods: {
             CheckConfigIsComplete: function(){
                 if(this.choosenAttrId == '') return false;
+                if(this.choosenDurationHours == '') return false;
+                if(this.choosenYMax == '') return false;
+                if(this.choosenYMin == '') return false;
                 if(this.choosenSparkTitle == '') return false;
 
                 return true;
@@ -114,6 +171,9 @@
                     id: this.id,
                     config: {
                         attrId: this.choosenAttrId,
+                        durationHours: this.choosenDurationHours,
+                        yMax: this.choosenYMax,
+                        yMin: this.choosenYMin,
                         sparkTitle: this.choosenSparkTitle
                     }
                 });
