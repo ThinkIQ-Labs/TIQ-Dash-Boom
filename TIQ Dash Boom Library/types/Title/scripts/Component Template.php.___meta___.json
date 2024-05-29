@@ -1,0 +1,21 @@
+{
+    "run": false,
+    "document": {
+        "template": false
+    },
+    "importance": null,
+    "description": null,
+    "edit_status": "1",
+    "output_type": "headless",
+    "script_type": "php",
+    "display_name": "Component Template",
+    "relative_name": "component_template",
+    "initial_inputs": {
+        "start_timestamp": "2023-12-04T17:54:49.000+00:00",
+        "interval_seconds": "60"
+    },
+    "cron_expression": "0 * * * * ? *",
+    "updated_timestamp": "2023-12-06 00:41:28.219563+00",
+    "max_acceptable_run_secs": 0,
+    "use_outputs_from_last_run": false
+}

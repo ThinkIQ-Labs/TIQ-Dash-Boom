@@ -1,0 +1,21 @@
+{
+    "run": false,
+    "document": {
+        "template": false
+    },
+    "importance": null,
+    "description": null,
+    "edit_status": "1",
+    "output_type": "headless",
+    "script_type": "php",
+    "display_name": "Dashboard PHP API",
+    "relative_name": "dashboard_php_api",
+    "initial_inputs": {
+        "start_timestamp": "2023-12-05T15:54:09.000+00:00",
+        "interval_seconds": "60"
+    },
+    "cron_expression": "0 * * * * ? *",
+    "updated_timestamp": "2023-12-15 14:30:57.888332+00",
+    "max_acceptable_run_secs": 0,
+    "use_outputs_from_last_run": false
+}

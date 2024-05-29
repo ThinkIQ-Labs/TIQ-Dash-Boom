@@ -1,0 +1,21 @@
+{
+    "run": false,
+    "document": {
+        "template": false
+    },
+    "importance": null,
+    "description": null,
+    "edit_status": "1",
+    "output_type": "display",
+    "script_type": "php",
+    "display_name": "Dashboard",
+    "relative_name": "dashboard",
+    "initial_inputs": {
+        "start_timestamp": "2023-12-04T16:43:08.000+00:00",
+        "interval_seconds": "60"
+    },
+    "cron_expression": "0 * * * * ? *",
+    "updated_timestamp": "2024-05-29 14:04:25.5984+00",
+    "max_acceptable_run_secs": 0,
+    "use_outputs_from_last_run": true
+}
