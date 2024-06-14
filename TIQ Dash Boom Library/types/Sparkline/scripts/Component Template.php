@@ -7,7 +7,7 @@
             </button>
         </div>
 
-        <div class="display-6 ms-2 mb-2" style="font-size=6rem;">{{choosenSparkTitle}}</div>
+        <div v-if="choosenSparkTitle!=''" class="display-6 ms-2 mb-2" style="font-size=6rem;">{{choosenSparkTitle}}</div>
         <sparkline-chart
 
             :key='sparklineKey'
@@ -26,7 +26,7 @@
             :max-range='isNaN(parseFloat(choosenYMax)) ? null : parseFloat(choosenYMax)'
             :x-ticks='10'
             :y-ticks='5'
-            :height='hPx - 55'
+            :height='`${hPx - (choosenSparkTitle=="" ? 12 : 55)}`'
 
             :margin='{
                 "top": 19,
@@ -157,9 +157,9 @@
             CheckConfigIsComplete: function(){
                 if(this.choosenAttrId == '') return false;
                 if(this.choosenDurationHours == '') return false;
-                if(this.choosenYMax == '') return false;
-                if(this.choosenYMin == '') return false;
-                if(this.choosenSparkTitle == '') return false;
+                // if(this.choosenYMax == '') return false;
+                // if(this.choosenYMin == '') return false;
+                // if(this.choosenSparkTitle == '') return false;
 
                 return true;
             },
